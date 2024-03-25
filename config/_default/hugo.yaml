@@ -3,8 +3,10 @@
 # Hugo Documentation: https://gohugo.io/getting-started/configuration/#all-configuration-settings
 # This file is formatted using YAML syntax - learn more at https://learnxinyminutes.com/docs/yaml/
 
-title: Academic # Website name
-baseURL: 'https://example.com/' # Website URL
+title: Flip Tanedo # Website name
+baseURL: 'https://particle.ucr.edu/' # Website URL
+## FLIP: new addition
+copyright: 'Opinions on this site do not represent those of any other groups. Conversely, the policies of my university, department, and funding agencies do not necessarily represent my values.'
 
 ############################
 ## LANGUAGE

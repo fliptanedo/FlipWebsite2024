@@ -20,7 +20,7 @@ marketing:
     site_type: Person
     local_business_type: ''
     org_name: 'UC Riverside Physics and Astronomy'
-    description: 'Flip Tanedo Research Group'
+    description: 'Tanedo Research Group'
     twitter: ''
   analytics:
     google_analytics: ''
@@ -46,6 +46,7 @@ header:
 # Site footer
 
 footer:
+  block: flipfoot
   copyright:
     notice: '© {year} Flip Tanedo. This work is licensed under {license}. [Source on GitHub](https://github.com/fliptanedo/FlipWebsite2024). Published using [HugoBlox](https://github.com/HugoBlox/hugo-blox-builder) for [Hugo](https://gohugo.io). Thanks to George Cushen.'
     license:
@@ -91,7 +92,7 @@ features:
       category: ''
       category_id: ''
   search:
-    provider: wowchemy
+    provider: 
     algolia:
       app_id: ''
       api_key: ''

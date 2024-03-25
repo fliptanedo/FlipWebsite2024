@@ -47,7 +47,7 @@ I do not use the Netlify-based default deployment.
       4. Copy over `## ADDED BY FLIP` parameters from 2022 page
    5. `./config/config.yaml`: copy over modifications from 2022 page
 
-7. Update `./content/authors/admin/_index.md` ; copy from 2022 page. Copy `avatar.jpg` from here too. 
+7. Update `./content/authors/admin/_index.md` ; copy from 2022 page. Copy `avatar.jpg` from here too. I added a line `pronouns: he/him` in `./content/authors/admin/_index.md`; may want to use this in the future.
 
 8. Prepare a `layouts_templates` folder. Refer to the [Hugo Blox: Extend Hugo Blox documentation](https://docs.hugoblox.com/reference/extend/#override-a-component); you need to match the template to the module version; this is trivial if you're doing a fresh install. You'll need to download a local copy of [HugoBlox/hugo-blox-builder](HugoBlox/hugo-blox-builder) and copy the `/modules/blox-bootstrap/layouts` to a new `./layouts_templates` folder. Also make an empty-for-now `./layouts` folder. We will copy files from `layouts_templates` into `layouts` to overrwrite components as needed. Do the same for `./modules/blox-bootstrap/assets` and copy it into `./assets_templates` if you have to copy over and make custom `scss` or `js` code. Background: [Modifying Modules](https://gohugo.io/hugo-modules/use-modules/#make-and-test-changes-in-a-module)
 
@@ -65,6 +65,8 @@ I do not use the Netlify-based default deployment.
 * [Hugo Blox Docs](https://docs.hugoblox.com)
 
 * [Nick Ballou's customization page](https://nickballou.com/blog/custom-wowchemy/#add-background-image-to-bottom-of-about-widget)
+
+* [hackmd.io](https://hackmd.io/@noisyoscillator/hugo-academic-customizations)
 
 ## What's changed since 2023?
 
@@ -94,6 +96,9 @@ I have added a `./figures/` folder for images specifically for this `README.md` 
 ### Notes for this year and next
 
 * I may want to properly upgrade my custom css to [scss](https://www.geeksforgeeks.org/what-is-the-difference-between-css-and-scss/).
+* I want to embed my slides. I'm working on a reasonable way to do this. Google Slides perhaps? 
+  * It looks like Bootstrap has a way to deal with embeds: https://getbootstrap.com/docs/4.0/utilities/embed/
+
 * I backed up some old sites in `./static/archived/`. These show up under `./archived/` when uploaded. Should I link to them? These archived sites are a huge pain. They take up a large amount of space. I think it's from the saved pdfs of talks. I think there should be a better way of archiving these in the future.
 * There are a bunch of image files that are much larger than they need to be. The media folder is around 50 mb. I should make small versions of the images.
 
@@ -119,6 +124,8 @@ I have added a `./figures/` folder for images specifically for this `README.md` 
   (from my design portfolio). 
 
 * I had to remove the "recent talks" section from my landing page (homepage). This was mainly because the `<details>` tag seems to make slideshare embeds not load properly, but anyway the whole thing was kind of clunky. I've come around to the idea of using the Wowchemy "featured publications" or "projects" block for this. It's a little more work, but ultimately I think that's what I want to do. My research slider can link to a separate page.  
+
+* It looks like the Hugo Blox hooks aren't quite in the places where I'd like them. However, one thing that I can do is to use those code snippits to create new hooks in the places where I want them. Is this worth it? Not in the immediate term. It mainly saves the trouble of editing the `baseof.html` file too much.
 
 ## Transferring Assets
 
@@ -150,9 +157,15 @@ We just copy over the folder from `./assets/` in the 2023 version.
 
 Copy the files from `./layouts/shortcodes/`: `twitter.html` and `flipemail.html`
 
-### More image assets
+### More image and file assets
 
-Copy the `./static/files/` and `./static/img/` folders.
+#### Static Folder
+
+Transfer the `./static` folder. This one has lots of potentially large files. It is a good time to do housekeeping to remove anything that is no longer being used. 
+
+#### Content
+
+Transfer the folders from `./content/post` which contain the pages beyond the front page. I use these "blog posts" for my design portfolio.
 
 ### Fonts and color theme
 
@@ -195,7 +208,7 @@ One comment on `fliptheme.toml`: I found that the `primary` color is what ends u
 
 At this point, you've transferred over most of the assets. This is a good time to push to commit and push to your main repo on GitHub to save your progress.
 
-Here's what the page looks like right now: don't mind the fact that it's totally dark. Also don't mind that it takes Safari a while to update the favicon.
+Here's what the page looks like right now: don't mind the fact that it's totally dark. Also don't mind that it takes Safari a while to update the favicon; in a pinch you can delete the favicon cache at `~/Library/Safari/Favicon Cache`. 
 
 ![Screenshot 2024-03-25 at 10.36.12 AM](/Users/fliptanedo/Documents/Website/FlipWebsite2024/figures/Screenshot 2024-03-25 at 10.36.12 AM.png)
 
@@ -316,7 +329,7 @@ For 2024 I didn't need to futz with this.
    bottom: 90px;
    ```
 
-2. There's one remaining oddity. The color of the "over scroll". In `fliptheme.toml` the `primary` color sets the "background" of the page. (This didn't seem to be a problem in 2024. Did something change with Safari to prevent over-scrolling?) To fix this, go to `fliptheme.toml` and create a new option: 
+2. There's one remaining oddity. The color of the "over scroll". In `./data/themes/fliptheme.toml` the `primary` color sets the "background" of the page.  To fix this, go to `fliptheme.toml` and create a new option: 
 
    ```
    [light]
@@ -326,37 +339,29 @@ For 2024 I didn't need to futz with this.
      # ... shows up when you "overscroll"
    ```
 
-   Then go to `./layouts/partials/functions/parse_theme.html` and under `load theme`:
+   Then go to (or copy and create) `./layouts/partials/functions/parse_theme.html` and under `{{/* Load Theme. */}}`, Line 57:
 
-   ```
+   ```html
    {{ if site.Params.appearance.theme_day }}
-     {{/* FLIP EDIT: change $theme_day.primary to $theme_day.flip_bg */}} 
-     {{/* ... see fliptheme.toml */}} 
+     <!-- FLIP EDIT -->
+     <!-- {{- $scr.Set "primary" ($theme_day.primary | default "#1565c0") -}} -->
      {{- $scr.Set "primary" ($theme_day.flip_bg | default "#1565c0") -}}
-     {{/* /FLIP EDIT */}}
+     <!-- /FLIP EDIT -->
    ```
 
    
 
-#### Static Folder
-
-Transfer the `./static` folder. This one has lots of potentially large files. It is a good time to do housekeeping to remove anything that is no longer being used. 
-
-#### Content
-
-Transfer the folders from `./content/post` which contain the pages beyond the front page. I use these "blog posts" for my design portfolio.
-
-# Site Set Up: Layout
+## Setting up the site
 
 Any edits to templates that I make now are edits that I will need to make again in the future when doing my next major update. In order to document this, mark any edits  in templates with comments along the lines of `<!-- FLIP EDIT -->` and `<!-- /FLIP EDIT -->`. For simple edits no need to use the open/close. This makes it easy to search for edits. 
 
-I don't want to simply copy my hacked templates into new versions of Wowchemy because updates in Wowchemy can dramatically change the inter-relationships of template files. It is much better to start from the most updated Wowchemy and make small perturbations on a working system.
+I don't want to simply copy my hacked templates into new versions of ~~Wowchemy~~ Hugo Blox because updates in ~~Wowchemy~~ Hugo Blox can dramatically change the inter-relationships of template files. It is much better to start from the most updated Wowchemy and make small perturbations on a working system.
 
-## Two Column ~~Widget~~ Block
+## Two Column Block
 
-The home page sectioning that we used to call widgets are now called **blocks**.  The templates live in `./layouts/partials/blocks/`. Since 2022, Wowchemy now has a second version of blocks. We can thus ignore all the v1 blocks. 
+The templates for blocks (previously known as widgets) live in `./layouts/partials/blocks/`. 
 
-The blank template layout is  `./layouts/partials/blocks/markdown.html`. However, there's a tricky caveat. At full width, we want our homepage ~~widgets~~ blocks to have two columns with the block title on the left and the block contents on the right. The default Wowchemy scheme only allows certain blocks to do this property. The relevant line in `./layouts/partials/functions/parse_block_v2.html` is the following:
+The blank template layout is  `./layouts/partials/blocks/markdown.html` (copy this from `./layouts_templates/...`). However, there's a caveat. At full width, we want our blocks to have two columns with the block title on the left and the block contents on the right. The default Wowchemy scheme only allows certain blocks to do this property. The relevant line in `./layouts/partials/functions/parse_block_v2.html` (copy it over if it's not already there) is the following around Line 98:
 
 ```
 {{ $use_cols := in (slice "collection" "experience" "accomplishments" "contact" "markdown" "tag_cloud" "portfolio") $block_type }}
@@ -366,7 +371,7 @@ Only blocks with the listed tags are allowed to use the two-column mode. Examini
 
 In order to get around this, we'll make our own two column widget template.
 
-Make a copy of `./layout/partials/blocks/markdown.html` and call it `./layout/partials/blocks/fliptemplate.html`. 
+Make a copy of `./layout/partials/blocks/markdown.html` and call it `./layout/partials/blocks/fliptemplate.html`. (Or rename the copy of `markdown.html`)
 
 * Add some commented text at the top explaining the new block. 
 * Change the default number of columns to 2. 
@@ -374,8 +379,27 @@ Make a copy of `./layout/partials/blocks/markdown.html` and call it `./layout/pa
 
 Here's what it looks like on my end:
 
-```
-<!-- FLIP EDIT: COPIED FROM parse_block_v2.html: OPEN DIV 1 -->
+```html
+{{/* FLIP: new template block */}}
+{{/* BASED ON: Hugo Blox: Markdown */}}
+{{/* FLIP: use this for making new 2-col blocks */}}
+{{/* Documentation: https://hugoblox.com/blocks/ */}}
+{{/* License: https://github.com/HugoBlox/hugo-blox-builder/blob/main/LICENSE.md */}}
+{{/* FLIP EDITS: the default markdown block template    */}}
+{{/* has no explicit code for the left column.          */}}
+{{/* This code is hidden in pase_block.html and         */}}
+{{/* only accessible to the official blocks.            */}}
+
+
+{{/* Initialise */}}
+{{ $page := .wcPage }}
+{{ $block := .wcBlock }}
+<!-- FLIP: DEFAULT SET TO 2 -->
+{{ $columns := $block.design.columns | default "2" }}
+<!-- /FLIP -->
+{{ $text := $block.content.text | emojify | $page.RenderString }}
+
+<!-- FLIP: FROM parse_block_v2.html: OPEN DIV 1 -->
 <div class="row  {{if not $block.content.title | or (eq $columns "1") }}justify-content-center{{end}}">
 <!-- /FLIP EDIT -->
 
@@ -411,9 +435,9 @@ Here's what it looks like on my end:
 <!-- /FLIP EDIT -->
 ```
 
-Here's a good test for `./content/_index.md`:
+Here's a good test for `./content/_index.md`; add the following to the `sections` list:
 
-```
+```yaml
   - block: fliptemplate
     id: test
     content:
@@ -426,19 +450,11 @@ Here's a good test for `./content/_index.md`:
       columns: '2'
 ```
 
-**Protip**: I made two copies of my template. The first one has comments that annotates how I changed `markdown.html` . This version is for the *next* time I revamp my site. The second one has all comments stripped and is what I'll duplicate when making custom templates. That all comments will be about the customization relative to my template, not my template relative to `markdown`. I call the second version `fliptemplate.svelete`.
-
-**References**:
-
-* Information about editing the [Wowchemy blocks](https://wowchemy.com/blocks/).
-
-  
-
 ### Navbar
 
-The navbar defaults to a "large" menu. See `./layouts/partials/components/headers/navbar.html`. Changing the `nav` class to `navbar-expand-md` means the "hamburger" only shows up for small screens. 
+The navbar defaults to a "large" menu. See `./layouts/partials/components/headers/navbar.html`. (Create this if needed, copying from `./layouts_templates`.) Changing the `nav` class to `navbar-expand-md` means the "hamburger" only shows up for small screens. 
 
-```
+```html
 <header>
   <!-- FLIP: use navbar-expand-md; could even use navbar-expand-sm if short -->
   <nav class="navbar navbar-expand-md navbar-light compensate-for-scrollbar" id="navbar-main">
@@ -466,7 +482,7 @@ footer:
 
 Now we can edit `flipfoot.html`.  Here's what I use:
 
-```
+```html
 <div class="row" id="footer-columns">
   <div class="col-md-4" id="footer-col-1">
     <img src="{{ $.Site.BaseURL }}img/{{ $.Site.Params.mylogo }}" class="center-me">
@@ -500,17 +516,40 @@ Now we can edit `flipfoot.html`.  Here's what I use:
 </div>
 ```
 
-Note: the copyright information is split between blocks in `params.yaml` and `config.yaml`. I may want to tweak that in the future so they're both in the same place. 
+Note: the copyright information is split between blocks in `./config/_default/params.yaml` and `./config/_default/hugo.yaml`. I may want to tweak that in the future so they're both in the same place.  For `hugo.yaml`  you have to add a `copyright` attribute:
 
-**Reference**
+```yaml
+title: Flip Tanedo # Website name
+baseURL: 'https://particle.ucr.edu/' # Website URL
+## FLIP: new addition
+copyright: 'Opinions on this site do not represent those of any other groups. Conversely, the policies of my university and funding agencies do not necessarily represent my values.'
+```
 
-* [Wowchemy customization: footer](https://wowchemy.com/docs/getting-started/customization/#footer)
+
 
 # Content
 
-We'll go down the list of homepage blocks. It is not worth describing the custom block modifications. These are all based on `flip.template.html` (to have the nice two column layout). I suggest going over the existing blocks and seeing how they are modified. I did not bother indicating where the edits are: they are all over the place and should be straightforward to follow.
+We'll go down the list of homepage blocks. It is not worth describing the custom block modifications. These are all based on `./layouts/partials/blocks/fliptemplate.html` to have the nice two column layout. You'll need to make copies of `fliptemplate.html` for each modified block. 
 
-Everything is updated in `_index.md` and with the menu updated in `menu.yaml`. In `_index.md` it is useful to know that `|-` means "markdown follows in the following line."
+Note: if `fliptemplate.html` (which was based on `markdown.html`) hasn't changed since the last revision, then you can just copy over the custom blocks from the previous version. I suggest going over the existing blocks and seeing how they are modified. I did not bother indicating where the edits are: they are all over the place and should be straightforward to follow.
+
+**Remark:** the `./layouts/partials/blocks/fliptemplate.svelte.html` block is a version of `fliptemplate.html` that "knows" you have a two column layout and trims off the "if you want a one-column layout" code. I use this in some of the custom blocks.
+
+Everything is updated in `_index.md` and with the menu updated in `menus.yaml`. In `_index.md` it is useful to know that `|-` means "markdown follows in the following line." For example:
+
+```yaml
+sections:
+  - block: flip.avatar
+    id: about
+    content:
+      title: 
+      username: admin
+      text:
+      blurb: |-
+        Flip is the first Filipino-American professor of particle physics. He runs a [Physical Science book club](https://sites.google.com/ucr.edu/physci-book-club/) (Phy-Sci) at his local independent book store. He enjoys swimming, basketball, and speculative fiction.
+```
+
+
 
 ## About Block
 
