@@ -11,13 +11,19 @@ I periodically re-do my personal website from scratch using the latest Academic 
 
 Old versions:  [2023](https://github.com/fliptanedo/FlipWebsite2023)| [2022](https://github.com/fliptanedo/FlipWebsite2022/blob/main/README.md) | [2021](https://github.com/fliptanedo/tanedo-website-2021/blob/master/README.md) | [2020](https://github.com/fliptanedo/flip-www-2020)
 
+Here's what the 2023 version looked like:
+
+![image-20240325103923449](/Users/fliptanedo/Documents/Website/FlipWebsite2024/figures/image-20240325103923449.png)
+
 ## Quick Start from Scratch
 
 I do not use the Netlify-based default deployment.
 
 1. Use the Wowchemy [Academic Resumé template](https://github.com/wowchemy/starter-hugo-academic); there is a green button to `use this template` that will create a repository on your GitHub account.
+   ![UseThisTemplate](/Users/fliptanedo/Documents/Website/FlipWebsite2024/figures/UseThisTemplate.png)
 
 2. Pull the code locally, e.g. `Code` > `GitHub CLI` 
+   ![Screenshot 2024-03-25 at 10.35.39 AM](/Users/fliptanedo/Documents/Website/FlipWebsite2024/figures/Screenshot 2024-03-25 at 10.35.39 AM.png)
 
 3. Start hacking the template by copying over bits from the old site. (I started with this `README.md` file.) The steps for this are summarized below. As you go through this, update the `README.md` file accordingly. You future self will thank you (take this moment to thank me).
 
@@ -58,6 +64,8 @@ I do not use the Netlify-based default deployment.
 
 * [Hugo Blox Docs](https://docs.hugoblox.com)
 
+* [Nick Ballou's customization page](https://nickballou.com/blog/custom-wowchemy/#add-background-image-to-bottom-of-about-widget)
+
 ## What's changed since 2023?
 
 Updates: Wowchemy is now known as HugoBlox. 
@@ -66,7 +74,7 @@ Updates: Wowchemy is now known as HugoBlox.
 
 * There's a `./config/_default/hugo.yaml` file with some basic data. This includes the source structure for permalinks relative to the `./public/` folder. 
 
-* There is more [documentation](https://docs.hugoblox.com/reference/extend/) for customizing the framework, including: 
+* There is more [documentation](https://docs.hugoblox.com/reference/extend/) for customizing the framework, including:  
 
   * how to use **hooks** to avoid having to hard-code templates.  There are hooks for the start/end of the header, the end of the body, the start of the footer.
     ```
@@ -79,7 +87,9 @@ Updates: Wowchemy is now known as HugoBlox.
 
 * HugoBlox offers Tailwind as an alternative to Bootstrap styling. I'm sticking to Bootstrap for now.
 
+## Updates in my workflow
 
+I have added a `./figures/` folder for images specifically for this `README.md` file. 
 
 ### Notes for this year and next
 
@@ -98,7 +108,7 @@ Updates: Wowchemy is now known as HugoBlox.
           filename: hero-academic.png
   ```
 
-  This gives a slight white "watermark". See these [instructions for section background](https://wowchemy.com/docs/getting-started/page-builder/#background).
+  This gives a slight white "watermark". See these [instructions for section background](https://docs.hugoblox.com/tutorial/link-in-bio/step-4/).
 
 * As I start writing up separate pages, I may want to work out a better file system for `./content/`. Most of my independent pages show up in `./content/posts/` and are otherwise unsorted. They get called by, for example:
 
@@ -177,11 +187,15 @@ One comment on `fliptheme.toml`: I found that the `primary` color is what ends u
 
   Comment out the `theme_night` option in `params.yaml`. This overrides the `show_day_night` toggle and forces the page to only give light mode. [New documentation](https://docs.hugoblox.com/getting-started/customize/#appearance).
 
-### Fixing the background color
+## Checkpoint
 
-**2024: FLIP IS HERE**: this may be where we try to use hooks. 
+At this point, you've transferred over most of the assets. This is a good time to push to commit and push to your main repo on GitHub to save your progress.
 
-At this point, the background color for odd-numbered setions is very dark. I believe this is just the background color that I set somewhere. This came from some hubris I had about editing `/layouts/_default/baseof.html`. Here's what I wrote in the 2021 version (edited)
+Here's what the page looks like right now: don't mind the fact that it's totally dark. Also don't mind that it takes Safari a while to update the favicon.
+
+![Screenshot 2024-03-25 at 10.36.12 AM](/Users/fliptanedo/Documents/Website/FlipWebsite2024/figures/Screenshot 2024-03-25 at 10.36.12 AM.png)
+
+Seriously, don't freak out about the background. Here's an explanation. At this point, the background color for odd-numbered setions is very dark. I believe this is just the background color that I set somewhere. This came from some hubris I had about editing `/layouts/_default/baseof.html`. Here's what I wrote in the 2021 version (edited)
 
 > 1. **We want the *actual* background of `<body>` to be dark gray.** Aesthetically we want the background to be white. However, the navigation bar and footer will be dark gray. What this means is that if one over-scrolls (pulls above or below the main page by a little) then you get a bit of white pulling from under the footer or from above the navigation bar. This is distracting, so we're going to jump through some hoops. This involves:
 >
@@ -197,59 +211,90 @@ At this point, the background color for odd-numbered setions is very dark. I bel
 >
 >    In earlier steps we defined the locations of the graphics in `params.yaml`
 
-Ok, time to hack  `./layouts/_default/baseof.html`. It's easiest to refer to the previous version to seen where the edits are.
+The road in the past has been to hack  `./layouts/_default/baseof.html`. It would be nice if the Hugo Blox hooks can help here, but they do not seem to appear at quite the ideal places, so we'll continue the way we have before by hacking at templates. 
 
-1. Vanity: add a comment at the top of the page to note that I've edited the Wowchemy template.
+## Building up the framework
 
-2. Below the `{{ if .Params.announcement.text -}}` block, put in the watermark div:
+Pages follow the following overall template: `./layouts/_default/baseof.html`. Like all layout documents, the version in `./layouts_templates/` that we copied from the Hugo Blox GitHub repo is what the system defaults to. However, it will look in the `./layouts/` folder for any templates that should supercede the default. Thus, if you want to hack `baseof.html`, copy `./layouts_templates/_default/baseof.html` into  `./layouts/_default/baseof.html` and work on the latter.
 
+### Baseof
+
+Ok, time to hack  `./layouts/_default/baseof.html`. It's easiest to refer to the previous version to see where the edits are. Mark these with comments to make them really clear.
+
+1. Vanity: add a comment at the top of the page to note that I've edited the Hugo Blox template. Insert into Line 3.
+   ```html
+   <!DOCTYPE html>
+   {{ "<!-- This site was created with Hugo Blox. https://hugoblox.com -->" | safeHTML }}
+   <!-- FLIP: added a little string in here -->
+   {{ "<!-- Flip Tanedo has edited the Hugo Blox template.  -->" | safeHTML }}
    ```
-   <!-- FLIP: FOR WATERMARK -->
-   <div id="watermark" style="background-image:url('{{ $.Site.BaseURL }}/img/{{ .Site.Params.watermark }}');"></div>
-   <!-- /FLIP -->
+
+2. Below the `{{ if .Params.announcement.text -}}` block, put in the watermark div, Line 37:
+
+   ```html
+    {{ if .Params.announcement.text -}}
+       {{ partial "components/announcement_bar" . }}
+     {{ end -}}
+   
+     <!-- FLIP: FOR WATERMARK -->
+     <div id="watermark" style="background-image:url('{{ $.Site.BaseURL }}/img/{{ .Site.Params.watermark }}');"></div>
+     <!-- /FLIP --> 
    ```
 
-3. Below `{{/* Load header block */}}`:
+3. Below `{{/* Load header block */}}` and above `<div class="page-body">`, Line 54:
 
-   ```
-   <!-- FLIP: opened a new div for framing -->
+   ```html
+     {{ partial $block_path . }}
+     </div>
+   
+   <!-- FLIP: opened a new div id="THECONTENT" for framing -->
    <div id="THECONTENT">
-   <!-- Closed below; see flip2019.css -->
+   <!-- Closed below; see ./assets/scss/custom.css -->
    <!-- /FLIP -->
    
+   
+     <div class="page-body">
    ```
 
-   Go ahead and close it just above `{{ partial "site_js" . }}`:
+   Go ahead and close it just above `{{ partial "site_js" . }}`, Line 84:
 
-   ```
-   <!-- FLIP -->
-   </div> <!-- closes id="THECONTENT" -->
-   <!-- /FLIP -->
+   ```html
+     <!-- FLIP -->
+     </div> <!-- closes id="THECONTENT" -->
+     <!-- /FLIP -->
+   
+     {{ partial "site_js" . }}
    ```
 
-4. Now dig into `<div class="page-footer">`, insert the following after `{{ if not (in (slice "book" "docs" "updates") .Type) }}`; we're surrounding the `class="container"` div.
+   1. Now backtrack and dig into `<div class="page-footer">`, insert the following after `{{ if not (in (slice "book" "docs" "updates") .Type) }}`; we're surrounding the `class="container"` div. Line 78:
 
-   ```
-   !-- FLIP -->
+
+   ```html
+     <div class="page-footer">
+       {{/* Docs and Updates layouts include the site footer in a different location. */}}
+       {{ if not (in (slice "book" "docs" "updates") .Type) }}
+       <!-- FLIP -->
        <div style="position: relative; width: 0; height: 0">
          <div id="feynmanfoot" style="background-image:url('{{ $.Site.BaseURL }}/img/{{ .Site.Params.footmark }}');"></div>
        </div>
        <div id="botbar1"></div>
-       <!-- -- -->
+         <!-- -- -->
        <div id="FOOTERBAR"> 
        <!-- closed after container -->
-   <!-- /FLIP -->
+       <!-- /FLIP -->
        <div class="container">
          {{ partial "site_footer" . }}
        </div>
-   <!-- FLIP -->
+       <!-- FLIP -->
        </div> <!-- closes div FOOTERBAR -->
-   <!-- /FLIP -->
+       <!-- /FLIP -->
+       {{ end }}
+     </div>
    ```
 
-   At this point the page should render with all the appropriate components. The footer bar probably needs some height calibration.
+   At this point the page should render with all the appropriate components. The footer bar may need some height calibration.
 
-5. Pop back into `./assets/scss/custom.scss`. We need to fiddle with the `top` padding on `#botbar1`: 
+4. Pop back into `./assets/scss/custom.scss`. We need to fiddle with the `top` padding on `#botbar1`: 
 
    ```
    	padding: 0;
@@ -263,7 +308,7 @@ Ok, time to hack  `./layouts/_default/baseof.html`. It's easiest to refer to the
    bottom: 90px;
    ```
 
-6. There's one remaining oddity. The color of the "over scroll". In `fliptheme.toml` the `primary` color sets the "background" of the page. To fix this, go to `fliptheme.toml` and create a new option: 
+5. There's one remaining oddity. The color of the "over scroll". In `fliptheme.toml` the `primary` color sets the "background" of the page. To fix this, go to `fliptheme.toml` and create a new option: 
 
    ```
    [light]
