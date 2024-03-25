@@ -1,0 +1,18 @@
+# Theme metadata
+name = "fliptheme"
+
+[light]
+  # Primary
+  flip_bg = "#333333"
+  primary = "#4caf50"
+  # ... shows up when you "overscroll"
+
+  # Menu
+  menu_primary = "#333333"
+  menu_text = "#fff"
+  menu_text_active = "#4caf50"
+  menu_title = "#fff"
+
+  # Home sections
+  home_section_odd = "rgb(255, 255, 255)"
+  home_section_even = "rgb(247, 247, 247)"

@@ -6,9 +6,11 @@
 # Appearance
 
 appearance:
-  theme_day: minimal
-  theme_night: minimal
-  font: minimal
+  # theme_day: minimal
+  # theme_night: minimal
+  theme_day: fliptheme
+  font: flipfont
+  # font: minimal
   font_size: L
 
 # SEO
@@ -17,9 +19,9 @@ marketing:
   seo:
     site_type: Person
     local_business_type: ''
-    org_name: ''
-    description: 'A highly-customizable Hugo academic resume theme powered by Hugo Blox Builder.'
-    twitter: 'GetResearchDev'
+    org_name: 'UC Riverside Physics and Astronomy'
+    description: 'Flip Tanedo Research Group'
+    twitter: ''
   analytics:
     google_analytics: ''
     baidu_tongji: ''
@@ -34,18 +36,18 @@ marketing:
 header:
   navbar:
     enable: true
-    align: l
+    align: r
     show_logo: true
     show_language: false
-    show_day_night: true
-    show_search: true
+    show_day_night: false
+    show_search: false
     highlight_active_link: true
 
 # Site footer
 
 footer:
   copyright:
-    notice: '© {year} Me. This work is licensed under {license}'
+    notice: '© {year} Flip Tanedo. This work is licensed under {license}. [Source on GitHub](https://github.com/fliptanedo/FlipWebsite2024). Published using [HugoBlox](https://github.com/HugoBlox/hugo-blox-builder) for [Hugo](https://gohugo.io). Thanks to George Cushen.'
     license:
       enable: true
       allow_derivatives: false
@@ -70,7 +72,7 @@ features:
   privacy_pack:
     enable: false
   repository:
-    url: 'https://github.com/<username>/<repository>'
+    url: 'https://github.com/fliptanedo/FlipWebsite2024'
     content_dir: content
     branch: main
   avatar:
@@ -114,3 +116,20 @@ extensions:
 security:
   # Allow frame for embedding speaker notes in slides
   allow_frame: true
+
+
+
+## ADDED BY FLIP
+
+# Feynman Diagram Footer
+footmark: 'layout/feynmanfooter.png'
+
+# Footer logos
+midlogo: 'logo/UCRPAlogo2.png'
+mylogo: 'logo/FlipAmbigram.png'
+
+# watermark on the about widget
+watermark: 'background/Bundle3.jpg'
+## /FLIP
+
+i_am_a_sponsor: true
