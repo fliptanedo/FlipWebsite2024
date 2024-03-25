@@ -64,7 +64,7 @@ Updates: Wowchemy is now known as HugoBlox.
 
 ### Updates in HugoBlox
 
-* There's a `./config/_default/hugo.yaml` file with soem basic data. This includes the source structure for permalinks relative to the `./public/` folder. 
+* There's a `./config/_default/hugo.yaml` file with some basic data. This includes the source structure for permalinks relative to the `./public/` folder. 
 
 * There is more [documentation](https://docs.hugoblox.com/reference/extend/) for customizing the framework, including: 
 
