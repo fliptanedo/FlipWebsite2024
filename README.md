@@ -150,7 +150,11 @@ We just copy over the folder from `./assets/` in the 2023 version.
 
 Copy the files from `./layouts/shortcodes/`: `twitter.html` and `flipemail.html`
 
-#### Fonts and color theme
+### More image assets
+
+Copy the `./static/files/` and `./static/img/` folders.
+
+### Fonts and color theme
 
 Note: you can refer to [HugoBlox/hugo-blox-builder](HugoBlox/hugo-blox-builder) to see what the default theme and font files look like. For now they are still in toml rather than yaml.
 
@@ -294,7 +298,11 @@ Ok, time to hack  `./layouts/_default/baseof.html`. It's easiest to refer to the
 
    At this point the page should render with all the appropriate components. The footer bar may need some height calibration.
 
-4. Pop back into `./assets/scss/custom.scss`. We need to fiddle with the `top` padding on `#botbar1`: 
+#### Editing Footer CSS 
+
+For 2024 I didn't need to futz with this.
+
+1. Pop back into `./assets/scss/custom.scss`. We need to fiddle with the `top` padding on `#botbar1`: 
 
    ```
    	padding: 0;
@@ -308,7 +316,7 @@ Ok, time to hack  `./layouts/_default/baseof.html`. It's easiest to refer to the
    bottom: 90px;
    ```
 
-5. There's one remaining oddity. The color of the "over scroll". In `fliptheme.toml` the `primary` color sets the "background" of the page. To fix this, go to `fliptheme.toml` and create a new option: 
+2. There's one remaining oddity. The color of the "over scroll". In `fliptheme.toml` the `primary` color sets the "background" of the page. (This didn't seem to be a problem in 2024. Did something change with Safari to prevent over-scrolling?) To fix this, go to `fliptheme.toml` and create a new option: 
 
    ```
    [light]
